@@ -1,0 +1,25 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/orthopaedic/study/0.1.0",
+  "title":"Orthopaedic research study contract",
+  "type":"object",
+  "required":["schema_version","id","version","patient_id","episode_id","encounter_id","institution_id","anatomy","laterality","age_group","phase","capture_domain","expected_views","images","examination","review","governance"],
+  "properties":{
+    "schema_version":{"const":"0.1.0"},"id":{"type":"string"},"version":{"type":"integer","minimum":1},
+    "patient_id":{"type":"string"},"episode_id":{"type":"string"},"encounter_id":{"type":"string"},"institution_id":{"type":"string"},
+    "age_years":{"type":["integer","null"],"minimum":0},"age_group":{"enum":["adult","paediatric","unknown"]},
+    "anatomy":{"type":"string"},"laterality":{"enum":["left","right","bilateral","unknown"]},"laterality_source":{"enum":["reviewed","metadata","entered","unknown","conflict"]},
+    "mechanism":{"type":"string"},"phase":{"enum":["initial","post_reduction","follow_up"]},"capture_domain":{"enum":["native_dicom","direct_export","screenshot","film_photo","monitor_photo"]},
+    "expected_views":{"type":"array","items":{"type":"string"}},"images":{"type":"array","items":{"$ref":"#/$defs/image"}},
+    "examination":{"type":"object","required":["open_wound","perfusion","nerve","timestamp"],"properties":{"open_wound":{"$ref":"#/$defs/clinicalState"},"perfusion":{"$ref":"#/$defs/clinicalState"},"nerve":{"$ref":"#/$defs/clinicalState"},"timestamp":{"type":["string","null"]}}},
+    "findings":{"type":"array","items":{"$ref":"#/$defs/finding"}},
+    "review":{"type":"object","required":["state","author","reviewer","decision"],"properties":{"state":{"enum":["draft","independent_review","disagreement","accepted","rejected"]},"author":{"type":["string","null"]},"reviewer":{"type":["string","null"]},"decision":{"enum":["positive","negative","indeterminate","not_assessed"]}}},
+    "governance":{"type":"object","required":["deid","rights","withdrawn","excluded"],"properties":{"deid":{"enum":["quarantine","reviewed"]},"rights":{"enum":["unknown","research","training"]},"withdrawn":{"type":"boolean"},"excluded":{"type":"boolean"}}},
+    "linked_study_ids":{"type":"array","items":{"type":"string"}},"history":{"type":"array","items":{"type":"object"}}
+  },
+  "$defs":{
+    "clinicalState":{"enum":["present","absent","not_assessed","indeterminate","unsupported"]},
+    "image":{"type":"object","required":["id","series_id","view","format","width","height","capture_domain","deid"],"properties":{"id":{"type":"string"},"series_id":{"type":"string"},"view":{"type":"string"},"view_source":{"enum":["reviewed","metadata","entered","unknown"]},"format":{"type":"string"},"width":{"type":"integer","minimum":1},"height":{"type":"integer","minimum":1},"bits_stored":{"type":["integer","null"]},"photometric":{"type":["string","null"]},"hash":{"type":["string","null"]},"source_image_id":{"type":["string","null"]},"capture_domain":{"type":"string"},"deid":{"enum":["quarantine","reviewed"]},"src":{"type":"string"}}},
+    "finding":{"type":"object","required":["id","status","bone","regions","source","certainty"],"properties":{"id":{"type":"string"},"status":{"enum":["present","absent","indeterminate","not_assessed"]},"bone":{"type":"string"},"site":{"type":"string"},"morphology":{"type":"string"},"regions":{"type":"array","items":{"type":"object","required":["image_id","x","y","w","h"],"properties":{"image_id":{"type":"string"},"x":{"type":"number","minimum":0,"maximum":1},"y":{"type":"number","minimum":0,"maximum":1},"w":{"type":"number","exclusiveMinimum":0,"maximum":1},"h":{"type":"number","exclusiveMinimum":0,"maximum":1}}}},"source":{"enum":["human","mock","model"]},"certainty":{"enum":["reviewed","provisional","indeterminate"]}}}
+  }
+}
