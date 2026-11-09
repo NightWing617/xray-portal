@@ -9,6 +9,6 @@
 | Research Auth, quarantined upload and private reads | Verified locally | Same seeded local Supabase, browser sign-in and private DICOM view; direct API matrix from database repo passed |
 | Research submission, inference, referral | Planned | Requires authorised API/worker, access grants, recipient and approved artifact/protocol; no fallback mock |
 | Trained model | None | Synthetic simulation only; database repo has feature-vector smoke scaffold |
-| Publication | In progress | Destination supplied: `NightWing617/xray-portal`; Pages workflow added for the synthetic build |
+| Publication | Verified live | `NightWing617/xray-portal` main and `https://nightwing617.github.io/xray-portal/`; Pages and local-check workflows passed, live browser handover verified |
 
 Local verification: `npm test` 5/5, `npm run build`, browser saved context/concern/handover/job, quarantined PNG view addition, phone width and unsupported paediatric scope, browser Auth/private DICOM view and logout. See `docs/screenshots/analyst-handover.png` and `docs/screenshots/research-private-dicom.png`.
