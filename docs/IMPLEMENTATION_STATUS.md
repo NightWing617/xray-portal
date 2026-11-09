@@ -3,12 +3,12 @@
 | Area | State | Evidence / limit |
 |---|---|---|
 | Source preservation | Verified | Recorded source commit, no burns origin, history retained |
-| Synthetic clinician workspace | Implemented | Context, manual concern, multiview upload/viewer and drag/drop, entered-data handover draft, input-bound simulated job, cancellation, correction, history and review queue |
+| Synthetic clinician workspace | Implemented | Portal access screen, guided study steps, new-case dialog, context, manual concern, multiview upload/viewer and drag/drop, entered-data handover draft, input-bound simulated job, cancellation, correction, history and review queue |
 | DICOM | Verified bounded fixture | Uncompressed single-frame CR/DX decoder snapshot; diagnostic conformance remains unverified |
 | Shared contract | Verified | SHA-256 snapshot test and version 0.1.0 |
-| Research Auth, quarantined upload and private reads | Verified locally | Same seeded local Supabase, browser sign-in and private DICOM view; direct API matrix from database repo passed |
+| Research Auth, quarantined upload and private reads | Verified locally | Landing page Auth form, memory-only token refresh, same seeded local Supabase, browser sign-in and private DICOM view; direct API matrix from database repo passed |
 | Research submission, inference, referral | Planned | Requires authorised API/worker, access grants, recipient and approved artifact/protocol; no fallback mock |
 | Trained model | None | Synthetic simulation only; database repo has feature-vector smoke scaffold |
 | Publication | Verified live | `NightWing617/xray-portal` main and `https://nightwing617.github.io/xray-portal/`; Pages and local-check workflows passed, live browser handover verified |
 
-Local verification: `npm test` 5/5, `npm run build`, browser saved context/concern/handover/job, quarantined PNG view addition, phone width and unsupported paediatric scope, browser Auth/private DICOM view and logout. See `docs/screenshots/analyst-handover.png` and `docs/screenshots/research-private-dicom.png`.
+Local verification: `npm test` 7/7, `npm run build`, browser new study → PNG upload → simulated job → handover → review queue → sign-out, desktop and phone viewport checks, and mocked research Auth sign-in/list/logout. Prior seeded local Supabase checks covered private DICOM view and logout. See `docs/screenshots/portal-entry.png`, `docs/screenshots/portal-workspace.png` and `docs/screenshots/research-private-dicom.png`.

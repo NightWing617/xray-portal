@@ -1,2 +1,72 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OrthoAnalyst · Synthetic clinician workspace</title><link rel="stylesheet" href="./style.css"></head><body>
-<header><div class="brand"><span class="mark">◫</span><div><strong>OrthoAnalyst</strong><small>Clinician study and review workspace</small></div></div><nav id="nav" hidden><button data-tab="work">Study</button><button data-tab="history">Case history</button><button data-tab="queue">Review queue</button><button id="reset">Reset demo</button><button id="logout">Leave demo</button></nav></header><main><section id="entry" class="hero"><p class="eyebrow">Research prototype · synthetic only</p><h1>Make the whole study visible.</h1><p>Review linked views and clinical context, then inspect a clearly simulated output. The manual concern pathway is always available. No orthopaedic model is trained or validated here.</p><button id="demo" class="primary">Enter synthetic demo</button><div class="card" style="margin-top:1.5rem"><h3>Research sign-in</h3><p>Requires a deliberately configured private backend. Quarantined synthetic upload and protected reads are available; analysis needs a governed worker.</p><button id="research" disabled>Research mode unavailable</button></div></section><div id="workspace" hidden><div class="banner">SYNTHETIC DEMO · Not a diagnostic service. Do not upload patient images. Edits stay in this browser.</div><div id="screen"></div></div><div id="researchWorkspace" hidden></div></main><footer>Clinical decisions require qualified review and approved local protocols. <a href="./docs/research/EVIDENCE_REGISTER.md">Evidence register</a></footer><script type="module" src="./app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#102c39">
+  <meta name="description" content="OrthoAnalyst research prototype for structured radiograph review, image upload and supervised analysis workflows.">
+  <title>OrthoAnalyst · Imaging workspace</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="OrthoAnalyst home"><span class="mark" aria-hidden="true">✚</span><span><strong>OrthoAnalyst</strong><small>Imaging workspace</small></span></a>
+      <nav id="nav" aria-label="Workspace" hidden>
+        <button data-tab="work">Study workspace</button><button data-tab="history">Case history</button><button data-tab="queue">Review queue</button><button id="reset" class="quiet">Reset demo</button><button id="logout" class="quiet">Sign out</button>
+      </nav>
+      <span id="headerStatus" class="header-status">Research prototype</span>
+    </div>
+  </header>
+  <main>
+    <section id="entry" class="entry-layout">
+      <div class="entry-copy">
+        <span class="eyebrow"><span class="signal-dot"></span> ORTHOPAEDIC IMAGING · RESEARCH PROTOTYPE</span>
+        <h1>From uploaded views<br>to a clearer review.</h1>
+        <p class="entry-lead">A focused workspace for study context, radiograph views, provisional analysis and accountable review. Explore the complete journey with synthetic cases.</p>
+        <div class="journey" aria-label="Workflow">
+          <div><span>01</span><strong>Capture the study</strong><small>Clinical context and linked image views</small></div>
+          <div><span>02</span><strong>Assess the images</strong><small>Scope checks and provisional output</small></div>
+          <div><span>03</span><strong>Review and hand over</strong><small>Corrections, queue and structured draft</small></div>
+        </div>
+        <div class="entry-note"><span aria-hidden="true">ⓘ</span><p>The public demo uses deterministic simulated output. No trained OrthoRegistry model or clinical inference service is connected. Use synthetic images only.</p></div>
+      </div>
+      <div class="access-card">
+        <div class="access-head"><span class="access-icon" aria-hidden="true">↗</span><span class="pill">Portal access</span></div>
+        <h2>Welcome to your workspace</h2>
+        <p>Choose how you want to explore OrthoAnalyst.</p>
+        <div class="access-option">
+          <span class="option-icon" aria-hidden="true">◈</span>
+          <div><strong>Explore the synthetic demo</strong><small>Ready now · no account required</small></div>
+        </div>
+        <button id="demo" class="primary wide">Open demo workspace <span aria-hidden="true">→</span></button>
+        <div class="divider"><span>Institutional access</span></div>
+        <form id="researchLogin" class="auth-form">
+          <label>Email address<input name="email" type="email" placeholder="name@institution.org" required autocomplete="username" disabled></label>
+          <label>Password<input name="password" type="password" placeholder="Your password" required autocomplete="current-password" disabled></label>
+          <button class="wide" id="researchSubmit" type="submit" disabled>Sign in to research workspace</button>
+          <p id="researchStatus" class="auth-status" role="status">Connect an approved private backend to enable institutional sign-in.</p>
+          <p id="researchError" class="danger" role="alert" hidden></p>
+        </form>
+        <p class="access-foot">Research access uses Supabase Auth and backend permissions. <a href="./docs/research/EVIDENCE_REGISTER.md">View evidence boundaries</a></p>
+      </div>
+    </section>
+    <div id="workspace" hidden>
+      <div class="mode-banner"><span class="mode-badge">DEMO MODE</span><span>Synthetic cases only. Analysis output is simulated; no diagnosis is made. Do not upload patient images.</span></div>
+      <div id="screen"></div>
+    </div>
+    <div id="researchWorkspace" hidden></div>
+  </main>
+  <dialog id="newCaseDialog" class="case-dialog" aria-labelledby="newCaseTitle">
+    <form method="dialog" id="newCaseForm">
+      <div class="dialog-top"><span class="eyebrow">NEW STUDY</span><button type="button" id="closeCase" aria-label="Close">×</button></div>
+      <h2 id="newCaseTitle">Create a synthetic case</h2>
+      <p>Start an empty study, then add views and complete the context in the workspace.</p>
+      <label>Patient pseudonym<input name="patient" required pattern="[A-Za-z0-9-]{3,30}" maxlength="30" placeholder="e.g. DEMO-023" autocomplete="off"></label>
+      <div class="dialog-actions"><button type="button" id="cancelCase">Cancel</button><button class="primary">Create study</button></div>
+    </form>
+  </dialog>
+  <footer>For research demonstration only · Clinical decisions require qualified review and approved local protocols. <a href="./docs/research/EVIDENCE_REGISTER.md">Evidence register</a></footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
