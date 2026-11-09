@@ -6,3 +6,5 @@
 .workspace{align-items:start}
 
 .workspace{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,1fr);gap:1rem;align-items:start}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem}.field-grid label{margin:.2rem 0}.result{min-height:250px}@media(max-width:800px){.workspace{grid-template-columns:1fr}.field-grid{grid-template-columns:1fr}}
+.dropzone{border:2px dashed #8ab9c3;border-radius:.65rem;padding:1rem;text-align:center;background:#f0f9fa;color:#245566;margin:.8rem 0;cursor:pointer}.dropzone.dragover,.dropzone:focus-visible{border-color:#116579;background:#def2f3;outline:3px solid #dd8e38;outline-offset:2px}.handover{border-top:1px solid #d8e3e9;margin-top:1.2rem;padding-top:1rem}.handover pre{max-height:460px;overflow:auto;font:inherit;white-space:pre-wrap}
+header{position:static}

@@ -16,15 +16,25 @@ const spec = [
   ['S-106','P-105','E-105','wrist','right','adult','fall','initial','fracture',['PA','lateral'],'direct_export'],
   ['S-107','P-107','E-107','wrist','left','adult','fall','initial','indeterminate',['PA','lateral'],'monitor_photo']
 ];
+const fixtureContext={
+  'S-100':{injury_at:'2026-10-10T07:00:00Z',indication:'Fictional adult with wrist pain after a fall; inspect both recorded views.',quality_note:'Two synthetic schematics. Positioning and exposure cannot be clinically assessed.',note:'A provisional fixture region is shown to exercise annotation and independent review.'},
+  'S-101':{injury_at:'2026-10-11T06:30:00Z',indication:'Fictional adult with wrist tenderness after a fall and persistent clinical concern.',quality_note:'Two synthetic schematics; a negative reference label does not exclude occult injury.',note:'The accepted synthetic negative reference is not a discharge or treatment decision.'},
+  'S-102':{injury_at:'2026-10-12T08:00:00Z',indication:'Fictional sports injury with conflicting side information and one available view.',quality_note:'Lateral view is missing and laterality is unresolved.',note:'Inadequate views and side conflict remain visible instead of being treated as a complete study.'},
+  'S-103':{injury_at:'2026-10-13T07:30:00Z',indication:'Fictional paediatric wrist injury outside the proposed adult model scope.',quality_note:'Two synthetic schematics; paediatric interpretation requires its own research protocol.',note:'The adult wrist model proposal must abstain for this age group.'},
+  'S-104':{injury_at:'2026-10-14T06:00:00Z',indication:'Fictional ankle twist for a separate anatomical research pathway.',quality_note:'Two synthetic ankle-labeled schematics; no wrist model use.',note:'An ankle finding is a provisional fixture label, not model performance evidence.'},
+  'S-105':{injury_at:'2026-10-16T07:00:00Z',indication:'Fictional post-reduction wrist study linked to an earlier initial acquisition.',quality_note:'Two synthetic schematics. Later acquisition is a separate time point.',note:'Do not use this later study as index-time input for the initial assessment.'},
+  'S-106':{injury_at:'2026-10-16T07:00:00Z',indication:'Fictional initial wrist study before a linked post-reduction acquisition.',quality_note:'Two synthetic schematics; subsequent imaging is shown only in the episode timeline.',note:'This index-time record remains separate from the later study.'},
+  'S-107':{injury_at:'2026-10-17T07:00:00Z',indication:'Fictional wrist case captured as a monitor photograph.',quality_note:'Photographic capture is outside the proposed native image model domain.',note:'The model proposal must abstain until this capture domain is separately evaluated.'}
+};
 export function seedStudies() {
   return spec.map(([id,patient_id,episode_id,anatomy,laterality,age_group,mechanism,phase,target,views,capture_domain],i)=>({
     schema_version:CONTRACT_VERSION,id,version:1,patient_id,episode_id,encounter_id:`C-${i}`,institution_id:i===7?'SITE-B':'SITE-A',age_years:age_group==='adult'?34+i:12,age_group,anatomy,laterality,laterality_source:id==='S-102'?'conflict':'reviewed',mechanism,phase,capture_domain,
-    acquired_at:`2026-10-${String(10+i).padStart(2,'0')}T10:00:00Z`,indication:'Synthetic demonstration of acute injury assessment',expected_views:anatomy==='wrist'?['PA','lateral']:['AP','lateral'],
+    acquired_at:id==='S-105'?'2026-10-18T10:00:00Z':`2026-10-${String(10+i).padStart(2,'0')}T10:00:00Z`,injury_at:fixtureContext[id].injury_at,indication:fixtureContext[id].indication,quality_note:fixtureContext[id].quality_note,expected_views:anatomy==='wrist'?['PA','lateral']:['AP','lateral'],
     images:views.map((view,j)=>({id:`${id}-I${j+1}`,series_id:`${id}-SER1`,view,view_source:'entered',format:'synthetic-svg',width:260,height:340,bits_stored:null,photometric:null,hash:null,source_image_id:null,capture_domain,deid:'reviewed',src:svg(target,view,laterality)})),
     examination:{open_wound:'not_assessed',perfusion:id==='S-101'?'indeterminate':'not_assessed',nerve:'not_assessed',timestamp:null},
     findings:target==='fracture'?[{id:`F-${id}`,status:'present',bone:anatomy==='wrist'?'distal radius':'distal fibula',site:'distal',morphology:'not_assessed',regions:[],source:'human',certainty:'provisional'}]:[],
     review:{state:i<2?'accepted':i===4?'independent_review':'draft',author:'synthetic-author',reviewer:i<2?'synthetic-reviewer':null,decision:i===0?'positive':i===1?'negative':'not_assessed'},
-    governance:{deid:'reviewed',rights:i<2?'training':'unknown',withdrawn:false,excluded:false},linked_study_ids:id==='S-105'?['S-106']:id==='S-106'?['S-105']:[],history:[{at:'2026-11-08',actor:'synthetic-fixture',action:'created'}],note:target==='negative'?'No visible abnormality in synthetic label; clinical concern remains possible.':'Synthetic fixture only.'
+    governance:{deid:'reviewed',rights:i<2?'training':'unknown',withdrawn:false,excluded:false},linked_study_ids:id==='S-105'?['S-106']:id==='S-106'?['S-105']:[],history:[{at:'2026-11-08',actor:'synthetic-fixture',action:'created'}],note:fixtureContext[id].note
   }));
 }
 export function loadStudies(storage=globalThis.localStorage) { try { const data=JSON.parse(storage.getItem(STORAGE_KEY)); return Array.isArray(data)?data:seedStudies(); } catch { return seedStudies(); } }
